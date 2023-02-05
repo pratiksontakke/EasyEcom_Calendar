@@ -1,20 +1,15 @@
 
-# Payment Wallet Application API
+# EasyEcom_Calendar API
 
-To create payment wallet application for XYZ bank. Customers will be able to add their money in the wallet. Customer should be able to pay different bills using this wallet. They should be able to connect bank account with this payment wallet and add money. Application should allow customers to check the balance, deposit money etc.
+EasyEcom_Calendar is a project that connects to the Google Calendar API to perform Create, Update, Read, and Delete (CURD) operations on Google Calendar events. The project likely implements features such as creating new events, updating existing events, retrieving event information, and deleting events from the Google Calendar. It allows users to interact with their Google Calendar directly from the EasyEcom platform, simplifying event management and providing an integrated calendar experience.
 
 ## Deployed link of project
-- <a href="#"> Payment Wallet Application </a>
+- <a href="#"> EasyEcom_Calendar </a>
 
 ## Team Members
 
 <ul>
   <li><a href="https://github.com/pratiksontakke">Pratik Sontakke</a></li>
-  <li><a href="https://github.com/Hartumpa">Harshit Awasthi</a></li>
-  <li><a href="https://github.com/jkka777">Kishore J</a></li>
-  <li><a href="https://github.com/sachin9603">Sachin Parmar</a></li>
-  <li><a href="https://github.com/rajashekharms369">Rajashekhar Sambalad</a></li>
-
 </ul>
 
 
@@ -39,30 +34,32 @@ On Swagger :
 
 application.properties : 
 ```bash
-  #changing the server port
-  server.port=8888
-  #db specific properties
-  spring.datasource.url=jdbc:mysql://localhost:3306/projectapi
-  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-  spring.datasource.username=Enter your My-SQL Username
-  spring.datasource.password=Enter your My-SQL Password
-  #ORM s/w specific properties
-  spring.jpa.hibernate.ddl-auto=update
-  spring.jpa.show-sql=true
+  server.port=9000
 
+  #Google Calendar API Configuration
+  google.client.client-id="write your own id"
+  google.client.client-secret="write your own secret code"
+  google.client.access-token-uri=https://www.googleapis.com/oauth2/v3/token
+  google.client.user-authorization-uri=https://accounts.google.com/o/oauth2/auth?access_type=offline&prompt=consent
+  google.client.client-authentication-scheme=query
+  google.client.scope=profile,email,https://www.googleapis.com/auth/calendar
+  google.resource.user-info-uri=https://www.googleapis.com/oauth2/v2/userinfo
+  google.resource.prefer-token-info=true
+  google.client.redirectUri=http://localhost:9000/login/google
   spring.mvc.pathmatch.matching-strategy = ANT_PATH_MATCHER
+
+  spring.main.allow-circular-references=true
+  spring.main.allow-bean-definition-overriding=true
 
 ```
 
 
 ## Spring Boot Dependencies
-- spring-boot-starter-data-jpa
-- spring-boot-starter-validation
 - spring-boot-starter-web
-- spring-boot-devtools
-- mysql-connector-j
+- spring-boot-starter-test
+- google-api-client
+- google-api-services-calendar
 - lombok
-- springfox-boot-starter
 - spring-boot-maven-plugin
 
 ## 🛠 Tech Stack
@@ -72,53 +69,26 @@ application.properties :
 - Spring-boot
 - Spring-boot-web
 - spring-security
-- My-SQL workbench 
-- Hibernate
+- Google calendar API
 
-## ER Diagram
-
-![ER Diagram](./images/05_ER_Diagram.jpg)
 
 ## Functionality
 
-- Signup
-- Login
-- Logout
+
 - Authentication
-- Fund transfer to another account
-- Deposit Amount
-- Show Balance
-- View all transactions
-- View transactions between dates
-- Add transaction
-- View all transactions by type (Credited/Debited)
-- View all bill payments
-- Add bills
-- Add Benificiary
-- Get all beneficiaries
-- Get beneficiary detail by beneficiary id
-- Delete beneficiary by beneficiary id
-- Add bank account
-- View all bank accounts
-- View bank account by account number
-- Delete bank account by account number
-- Real time My-SQL Database
+- Create token
+- Perform CURD operations
 
 
 ## Flow of User
 
-- Signup 
-- Login 
 - Authentication 
-- Wallet 
-- Bank accounts 
-- Beneficiary 
-- Transactions 
-- Logout 
+- Create token 
+- Perform CURD operations 
 
 ## API Presentation Video
 <ul>
-  <li><a href="https://drive.google.com/file/d/1IEAVuEbmHCJ9_2xlEJWCAx3IqWw9dKPA/view?usp=share_link">Video Link</a></li>
+  <li><a href="https://drive.google.com/file/d/1eO1HviBfz_e6o-orzkAHVtzJyFXR9DPx/view?usp=share_link">Video Link</a></li>
 </ul>
 
 ## API Presentation 
@@ -131,6 +101,4 @@ application.properties :
 ![API](./images/04.jpg)
 
 ## Thank you note
-Thank you all who is giving precious time to visit our little creative project which is made with lot of efforts.
-
-_<p align="center"><sub>- Readme file designed by <a href="https://github.com/pratiksontakke">Pratik Sontakke</a> -</sub></p>_
+Thank you all who is giving precious time to visit my little creative project which is made with lot of efforts.
