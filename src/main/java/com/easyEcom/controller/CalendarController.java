@@ -44,9 +44,9 @@ public class CalendarController {
     }
 
     @GetMapping("/addEvent")
-    public ResponseEntity<String> scheduleGoogleMeeting(@RequestBody EventDTO e) throws IOException {
+    public ResponseEntity<String> scheduleGoogleMeeting() throws IOException {
 
-        String msg = cSer.scheduleGoogleMeeting(e);
+        String msg = cSer.scheduleGoogleMeeting();
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
 
     }
