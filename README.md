@@ -55,6 +55,7 @@ API Endpoints :
 ```bash
 
 AUTHENTICATION :
+
 - http://localhost:9000/login/google
 
 GET:
