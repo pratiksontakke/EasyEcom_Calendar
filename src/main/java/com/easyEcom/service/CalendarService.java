@@ -193,7 +193,7 @@ public class CalendarService {
     }
 
     public String scheduleGoogleMeeting(EventDTO e) throws IOException {
-        
+
         try {
             initializeClient();
         } catch (GeneralSecurityException ex) {

@@ -30,11 +30,6 @@ On terminal perform:
   Open pom.xml with Spring Tool Suite / IntelliJ IDEA and run
 ```
 
-On Swagger :
-
-```bash
-  http://localhost:8888/swagger-ui/#/
-```
 
 application.properties : 
 ```bash
@@ -56,7 +51,18 @@ application.properties :
   spring.main.allow-bean-definition-overriding=true
 
 ```
+API Endpoints : 
+```bash
 
+GET:
+- http://localhost:9000/login/google
+
+- http://localhost:9000/getEvents
+
+POST:
+- http://localhost:9000/addEvent
+
+```
 
 ## Spring Boot Dependencies
 - spring-boot-starter-web
