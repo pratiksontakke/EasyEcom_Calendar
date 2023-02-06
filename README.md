@@ -31,6 +31,38 @@ On terminal perform:
 ```
 
 
+## Spring Boot Dependencies
+- google-api-services-calendar
+- spring-boot-starter-validation
+- spring-boot-starter-web
+- spring-boot-maven-plugin
+- spring-boot-starter-test
+- google-api-client
+- lombok
+
+## 🛠 Tech Stack
+
+- Java
+- Spring
+- Spring-boot
+- Spring-boot-web
+- spring-security
+- Google calendar API
+
+
+## Functionality
+
+- Authentication
+- Create token
+- Perform CURD operations
+
+
+## Flow of User
+
+- Authentication 
+- Create token 
+- Perform CURD operations 
+
 application.properties : 
 ```bash
   server.port=9000
@@ -116,39 +148,6 @@ DELETE :
   - http://localhost:9000/deleteEvent?eventId=52u1irtr7idcs5rtq95tvca41c
 
 ```
-
-
-## Spring Boot Dependencies
-- google-api-services-calendar
-- spring-boot-starter-validation
-- spring-boot-starter-web
-- spring-boot-maven-plugin
-- spring-boot-starter-test
-- google-api-client
-- lombok
-
-## 🛠 Tech Stack
-
-- Java
-- Spring
-- Spring-boot
-- Spring-boot-web
-- spring-security
-- Google calendar API
-
-
-## Functionality
-
-- Authentication
-- Create token
-- Perform CURD operations
-
-
-## Flow of User
-
-- Authentication 
-- Create token 
-- Perform CURD operations 
 
 ## Thank you note
 Thank you all who is giving precious time to visit my little creative project which is made with lot of efforts.
