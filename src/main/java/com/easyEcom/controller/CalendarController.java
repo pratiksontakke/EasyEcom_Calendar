@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 
@@ -44,7 +45,7 @@ public class CalendarController {
     }
 
     @PostMapping("/addEvent")
-    public ResponseEntity<String> scheduleGoogleMeeting(@RequestBody EventDTO e) throws IOException {
+    public ResponseEntity<String> scheduleGoogleMeeting(@RequestBody EventDTO e) throws IOException, GeneralSecurityException {
 
         String msg = cSer.scheduleGoogleMeeting(e);
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
