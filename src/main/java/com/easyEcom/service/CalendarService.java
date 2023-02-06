@@ -14,7 +14,6 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.*;
-import net.bytebuddy.utility.RandomString;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,9 +54,7 @@ public class CalendarService {
     public void initializeClient() throws GeneralSecurityException, IOException {
         httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         credential = flow.createAndStoreCredential(response, "Pratik Sontakke");
-        client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+        client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
     }
 
     public RedirectView googleConnectionStatus(HttpServletRequest request) throws Exception {
@@ -76,10 +73,8 @@ public class CalendarService {
             initializeClient();
 
         } catch (Exception e) {
-            logger.warn("Exception while handling OAuth2 callback (" + e.getMessage() + ")."
-                    + " Redirecting to google connection status page.");
-            message = "Exception while handling OAuth2 callback (" + e.getMessage() + ")."
-                    + " Redirecting to google connection status page.";
+            logger.warn("Exception while handling OAuth2 callback (" + e.getMessage() + ")." + " Redirecting to google connection status page.");
+            message = "Exception while handling OAuth2 callback (" + e.getMessage() + ")." + " Redirecting to google connection status page.";
         }
         return message;
     }
@@ -93,11 +88,7 @@ public class CalendarService {
             web.setClientSecret(clientSecret);
             clientSecrets = new GoogleClientSecrets().setWeb(web);
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-            flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
-                    Collections.singleton(CalendarScopes.CALENDAR))
-                    .setAccessType("offline")
-                    .setApprovalPrompt("force")
-                    .build();
+            flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, Collections.singleton(CalendarScopes.CALENDAR)).setAccessType("offline").setApprovalPrompt("force").build();
         }
         authorizationUrl = flow.newAuthorizationUrl().setRedirectUri(redirectURI);
 
@@ -107,10 +98,7 @@ public class CalendarService {
 
 
     public Event createCalenderEvent(EventDTO e) {
-        Event event = new Event()
-                .setSummary(e.getSummary())
-                .setLocation(e.getLocation())
-                .setDescription(e.getDescription());
+        Event event = new Event().setSummary(e.getSummary()).setLocation(e.getLocation()).setDescription(e.getDescription());
         ConferenceSolutionKey conferenceSKey = new ConferenceSolutionKey();
         conferenceSKey.setType("hangoutsMeet");
         CreateConferenceRequest createConferenceReq = new CreateConferenceRequest();
@@ -125,16 +113,12 @@ public class CalendarService {
 
         DateTime startDateTime = new DateTime(e.getStartTime());
         System.out.println(startDateTime);
-        EventDateTime start = new EventDateTime()
-                .setDateTime(startDateTime)
-                .setTimeZone("IST");
+        EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("IST");
         event.setStart(start);
 
         DateTime endDateTime = new DateTime(e.getEndTime());
         System.out.println(endDateTime);
-        EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone("IST");
+        EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("IST");
         event.setEnd(end);
 
         String[] recurrence = new String[]{}; // you can add recurrence rule here -> "RRULE:FREQ=DAILY;COUNT=2"
@@ -147,13 +131,8 @@ public class CalendarService {
 
         event.setAttendees(Arrays.asList(attendees));
 
-        EventReminder[] reminderOverrides = new EventReminder[]{
-                new EventReminder().setMethod("email").setMinutes(24 * 60),
-                new EventReminder().setMethod("popup").setMinutes(5),
-        };
-        Event.Reminders reminders = new Event.Reminders()
-                .setUseDefault(false)
-                .setOverrides(Arrays.asList(reminderOverrides));
+        EventReminder[] reminderOverrides = new EventReminder[]{new EventReminder().setMethod("email").setMinutes(24 * 60), new EventReminder().setMethod("popup").setMinutes(5),};
+        Event.Reminders reminders = new Event.Reminders().setUseDefault(false).setOverrides(Arrays.asList(reminderOverrides));
         event.setReminders(reminders);
         event.getHangoutLink();
         return event;
@@ -163,27 +142,19 @@ public class CalendarService {
         CalendarList calendarList = client.calendarList().list().execute();
         List<CalendarListEntry> items = calendarList.getItems();
 
-        List<Event> events = client.events().list(calendarId)
-                .setTimeMin(new DateTime(startDate))
-                .setTimeMax(new DateTime(endDate))
-                .setSingleEvents(true)
-                .execute()
-                .getItems();
+        List<Event> events = client.events().list(calendarId).setTimeMin(new DateTime(startDate)).setTimeMax(new DateTime(endDate)).execute().getItems();
 
         return events;
     }
 
-    public String scheduleGoogleMeeting(EventDTO e) throws GeneralSecurityException, IOException {
-        initializeClient();
+    public String scheduleGoogleMeeting(EventDTO e) throws IOException {
+        // initializeClient();
 
-        calendarId = "primary";
         Event event = getEvent(e.getStartTime(), e.getEndTime());
 
         if (event == null) {
             // Schedule a new event if no event with the same start time and end time exists
-            client.events().insert(calendarId, createCalenderEvent(e))
-                    .setConferenceDataVersion(1)
-                    .setSendNotifications(true).execute();
+            client.events().insert(calendarId, createCalenderEvent(e)).setConferenceDataVersion(1).setSendNotifications(true).execute();
             return "Created Calendar Event";
         } else {
             return "Event already exists";
@@ -197,11 +168,7 @@ public class CalendarService {
         Calendar calendar = client.calendars().get(calendarId).execute();
         DateTime timeMin = new DateTime(startTime);
         DateTime timeMax = new DateTime(endTime);
-        List<Event> events = client.events().list(calendarId)
-                .setTimeMin(timeMin)
-                .setTimeMax(timeMax)
-                .execute()
-                .getItems();
+        List<Event> events = client.events().list(calendarId).setTimeMin(timeMin).setTimeMax(timeMax).execute().getItems();
 
         if (events.isEmpty()) {
             // Return null if no event with the same start time and end time is found
@@ -212,23 +179,36 @@ public class CalendarService {
         }
     }
 
-
-/*
-
-    public boolean isCalendarIdExits(String calendarId1) throws IOException {
-        CalendarList calendarList = client.calendarList().list().execute();
-        List<CalendarListEntry> items = calendarList.getItems();
-        for (CalendarListEntry calendarListEntry : items) {
-            System.out.println(calendarListEntry.getSummary());
-            if (calendarListEntry.getSummary().equals("calendarId1")) {
-                return true;
-            }
+    public Event deleteGoogleMeeting(String eventId) throws IOException {
+        try {
+            Event deletedEvent = client.events().get(calendarId, eventId).execute();
+            client.events().delete(calendarId, eventId).execute();
+            return deletedEvent;
+        } catch (IOException e) {
+            throw new IOException("Failed to delete the Calendar Event: " + e.getMessage());
         }
-        return true;
     }
 
-*/
+    public Event updateGoogleMeeting(String eventId, EventDTO updatedEvent) throws IOException {
+        try {
+            Event oldEvent = client.events().get(calendarId, eventId).execute();
 
+            oldEvent.setSummary(updatedEvent.getSummary());
+            oldEvent.setDescription(updatedEvent.getDescription());
+            oldEvent.setLocation(updatedEvent.getLocation()); // new DateTime(e.getStartTime());
+            oldEvent.setStart(new EventDateTime().setDateTime(new DateTime(updatedEvent.getStartTime())));
+            oldEvent.setEnd(new EventDateTime().setDateTime(new DateTime(updatedEvent.getEndTime())));
 
+            EventAttendee[] attendees = new EventAttendee[updatedEvent.getAttendees().length];
+            for (int i = 0; i < updatedEvent.getAttendees().length; i++) {
+                attendees[i] = new EventAttendee().setEmail(updatedEvent.getAttendees()[i]);
+            }
+            oldEvent.setAttendees(Arrays.asList(attendees));
+
+            return client.events().patch(calendarId, eventId, oldEvent).execute();
+        } catch (IOException e) {
+            throw new IOException("Failed to update the Calendar Event: " + e.getMessage());
+        }
+    }
 
 }

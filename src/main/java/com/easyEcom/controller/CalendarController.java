@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -34,7 +35,7 @@ public class CalendarController {
 
 
     @GetMapping("/getEvents")
-    public ResponseEntity<List<Event>> getCalendarEvents(
+    public ResponseEntity<List<Event>> getCalendarEventsHandler(
             @RequestParam(value = "startDate", required = true) String startDate,
             @RequestParam(value = "endDate", required = true) String endDate,
             @RequestParam(value = "calendarId1") String calendarId) throws IOException {
@@ -45,11 +46,20 @@ public class CalendarController {
     }
 
     @PostMapping("/addEvent")
-    public ResponseEntity<String> scheduleGoogleMeeting(@RequestBody EventDTO e) throws IOException, GeneralSecurityException {
+    public ResponseEntity<String> scheduleGoogleMeetingHandler(@Valid @RequestBody EventDTO e) throws IOException, GeneralSecurityException {
 
         String msg = cSer.scheduleGoogleMeeting(e);
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
 
+    }
+
+    @DeleteMapping("/deleteEvent")
+    public ResponseEntity<Event> deleteGoogleMeetingHandler(@RequestParam String eventId) throws IOException {
+        return new ResponseEntity<>(cSer.deleteGoogleMeeting(eventId), HttpStatus.OK);
+    }
+    @PutMapping("/updateEvent")
+    public ResponseEntity<Event> updateGoogleMeetingHandler(@RequestParam String eventId, @Valid @RequestBody EventDTO e) throws IOException {
+        return new ResponseEntity<>(cSer.updateGoogleMeeting(eventId, e), HttpStatus.OK);
     }
 
 }
