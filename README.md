@@ -3,8 +3,12 @@
 
 EasyEcom_Calendar is a project that connects to the Google Calendar API to perform Create, Update, Read, and Delete (CURD) operations on Google Calendar events. The project likely implements features such as creating new events, updating existing events, retrieving event information, and deleting events from the Google Calendar. It allows users to interact with their Google Calendar directly from the EasyEcom platform, simplifying event management and providing an integrated calendar experience.
 
-## Deployed link of project
-- <a href="#"> EasyEcom_Calendar </a>
+
+## API Presentation Video
+<ul>
+  <li><a href="https://drive.google.com/file/d/1eO1HviBfz_e6o-orzkAHVtzJyFXR9DPx/view?usp=share_link">Video Link</a></li>
+</ul>
+
 
 ## Team Members
 
@@ -85,20 +89,6 @@ application.properties :
 - Authentication 
 - Create token 
 - Perform CURD operations 
-
-## API Presentation Video
-<ul>
-  <li><a href="https://drive.google.com/file/d/1eO1HviBfz_e6o-orzkAHVtzJyFXR9DPx/view?usp=share_link">Video Link</a></li>
-</ul>
-
-## API Presentation 
-![API](./images/01.jpg)
-
-![API](./images/02.jpg)
-
-![API](./images/03.jpg)
-
-![API](./images/04.jpg)
 
 ## Thank you note
 Thank you all who is giving precious time to visit my little creative project which is made with lot of efforts.

@@ -105,11 +105,11 @@ public class CalendarService {
     }
 
 
-    public Event createCalenderEvent() {
+    public Event createCalenderEvent(EventDTO e) {
         Event event = new Event()
-                .setSummary("Slack Google Calendar Test")
-                .setLocation("Hyderabad")
-                .setDescription("To test  Google's calendar integration.");
+                .setSummary(e.getSummary())
+                .setLocation(e.getLocation())
+                .setDescription(e.getDescription());
         ConferenceSolutionKey conferenceSKey = new ConferenceSolutionKey();
         conferenceSKey.setType("hangoutsMeet");
         CreateConferenceRequest createConferenceReq = new CreateConferenceRequest();
@@ -122,13 +122,13 @@ public class CalendarService {
         System.out.println(conferenceData);
         event.setConferenceData(conferenceData);
 
-        DateTime startDateTime = new DateTime("2023-01-01T09:00:00.000+05:30");
+        DateTime startDateTime = new DateTime(e.getStartTime());
         EventDateTime start = new EventDateTime()
                 .setDateTime(startDateTime)
                 .setTimeZone("IST");
         event.setStart(start);
 
-        DateTime endDateTime = new DateTime("2023-01-03T20:00:00.000+05:30");
+        DateTime endDateTime = new DateTime(e.getEndTime());
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("IST");
@@ -137,12 +137,16 @@ public class CalendarService {
         String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
         event.setRecurrence(Arrays.asList(recurrence));
 
-        EventAttendee[] attendees = new EventAttendee[] {
-                new EventAttendee().setEmail("gurwinder.singh@salesforce.com"),
-                new EventAttendee().setEmail("taddala@salesforce.com"),
-                new EventAttendee().setEmail("ksivasubramaniam@salesforce.com")
+       /* EventAttendee[] attendees = new EventAttendee[] {
+                new EventAttendee().setEmail("vicky@gmail.com"),
+                new EventAttendee().setEmail("pratikass488@gmail.com")
+        };*/
 
-        };
+        EventAttendee[] attendees = new EventAttendee[e.getAttendees().length];
+        for(int i=0; i<e.getAttendees().length; i++) {
+            attendees[i] = new EventAttendee().setEmail(e.getAttendees()[i]);
+        }
+
         event.setAttendees(Arrays.asList(attendees));
 
         EventReminder[] reminderOverrides = new EventReminder[] {
@@ -188,16 +192,17 @@ public class CalendarService {
         return events;
     }
 
-    public String scheduleGoogleMeeting() throws IOException {
+    public String scheduleGoogleMeeting(EventDTO e) throws IOException {
+        
+        try {
+            initializeClient();
+        } catch (GeneralSecurityException ex) {
+            throw new RuntimeException(ex);
+        }
 
-        credential = flow.createAndStoreCredential(response, "Pratik Sontakke");
-
-        client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName(APPLICATION_NAME)
-                .build();
 
         calendarId = "primary";
-        client.events().insert(calendarId, createCalenderEvent())
+        client.events().insert(calendarId, createCalenderEvent(e))
                 .setConferenceDataVersion(1)
                 .setSendNotifications(true).execute();
         return "Created Calendar Event";
