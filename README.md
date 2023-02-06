@@ -54,23 +54,77 @@ application.properties :
 API Endpoints : 
 ```bash
 
-GET:
+AUTHENTICATION :
 - http://localhost:9000/login/google
+
+GET:
 
 - http://localhost:9000/getEvents
 
 POST:
 - http://localhost:9000/addEvent
 
+PUT:
+- http://localhost:9000/updateEvent
+
+DELETE:
+- http://localhost:9000/deleteEvent
+
 ```
 
+Testing links of endpoints : 
+```bash
+
+GET : 
+  - http://localhost:9000/getEvents?startDate=2023-01-17T00:00:00.000Z&endDate=2023-01-17T23:59:00.000Z&calendarId1=primary
+
+POST :
+  - http://localhost:9000/addEvent
+
+  EventDTO BODY :
+  {
+    "summary": "Vicky DSA",
+    "location": "Online",
+    "description": "Practice DSA",
+    "attendees": [
+      "pratikasss488@gmail.com"
+    ],
+    "startTime": "2023-01-17T14:00:00.000+05:30",
+    "endTime": "2023-01-17T15:30:00.000+05:30"
+  }
+
+
+PUT : 
+  - http://localhost:9000/updateEvent?eventId=52u1irtr7idcs5rtq95tvca41cdfdf
+
+  EventDTO BODY :
+  {
+    "summary": "Ritik DSA",
+    "location": "Offline",
+    "description": "Practice 2 DSA",
+    "attendees": [
+      "pratikasWs488@gmail.com",
+      "pratikasss488@gmail.com",
+      "pratikassss488@gmail.com"
+    ],
+    "startTime": "2023-01-17T12:00:00.000+05:30",
+    "endTime": "2023-01-17T13:30:00.000+05:30"
+  }
+
+DELETE :
+  - http://localhost:9000/deleteEvent?eventId=52u1irtr7idcs5rtq95tvca41c
+
+```
+
+
 ## Spring Boot Dependencies
+- google-api-services-calendar
+- spring-boot-starter-validation
 - spring-boot-starter-web
+- spring-boot-maven-plugin
 - spring-boot-starter-test
 - google-api-client
-- google-api-services-calendar
 - lombok
-- spring-boot-maven-plugin
 
 ## 🛠 Tech Stack
 
@@ -83,7 +137,6 @@ POST:
 
 
 ## Functionality
-
 
 - Authentication
 - Create token
